@@ -1,0 +1,43 @@
+//Project 2
+
+#include<Servo.h>
+
+Servo servo;
+int fsr = 0;
+Servo servo_1;
+
+void setup()
+{
+  servo.attach(9);
+  Serial.begin(9600);
+  pinMode(A2,INPUT);
+  Serial.begin(9600);
+  servo_1.attach(2,500,2500);
+  pinMode(5,OUTPUT);
+}
+
+void loop()
+{
+  int flex = analogRead(A0);
+  Serial.print("flex = ");
+  Serial.println(flex);
+  
+  int angle = map(flex, 767, 964, 0,180);
+  servo.write(angle);
+  Serial.print("angle = ");
+  Serial.println(angle);
+  delay(1000);
+  
+  fsr = analogRead(A2);
+  Serial.println(fsr);
+  if(fsr>750){
+    servo_1.write(180);
+    digitalWrite(5,HIGH);
+  }
+  else{
+    servo_1.write(0);
+    digitalWrite(5,LOW);
+  }
+  delay(10);
+    
+}

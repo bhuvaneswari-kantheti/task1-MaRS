@@ -1,0 +1,40 @@
+//Project 3
+
+#include <LiquidCrystal.h>
+
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+const int lightSensorPin = A0;
+
+void setup() {
+  lcd.begin(16, 2);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  int lightLevel = analogRead(lightSensorPin);
+
+  lcd.setCursor(0, 0);
+  lcd.print("Light Level:");
+
+  lcd.setCursor(0, 1);
+  lcd.print(lightLevel);
+
+  if (lightLevel < 300) {
+    lcd.setCursor(0, 1);
+    lcd.print("Status: Low Light ");
+  } else if (lightLevel >= 300 && lightLevel <= 700) {
+    lcd.setCursor(0, 1);
+    lcd.print("Status: Normal ");
+  } else {
+    lcd.setCursor(0, 1);
+    lcd.print("Status: High Light ");
+  }
+
+  Serial.print("Light Level: ");
+  Serial.println(lightLevel);
+
+  delay(1000);
+}

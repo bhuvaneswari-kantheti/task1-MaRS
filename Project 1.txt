@@ -1,0 +1,40 @@
+//Project 1
+
+const int pinled = 13;
+const int pinbuzzer = 12;
+const int pinsensor = 2;
+const int pintmp = A2;
+const int pinled2 = 7;
+
+int pirsensor = 0;
+int tmpsensor = 0;
+
+void setup() {
+  pinMode(pinsensor, INPUT);
+  pinMode(pinled, OUTPUT);
+  pinMode(pinbuzzer, OUTPUT);
+  pinMode(pintmp, INPUT);  // Setting pin A2 as input for analog read
+  pinMode(pinled2, OUTPUT); // Setting pin 7 as output for LED
+}
+
+void loop() {
+  pirsensor = digitalRead(pinsensor); // Removed int data type
+  tmpsensor = analogRead(pintmp);     // Read analog value from TMP36
+  
+  if (tmpsensor > 100) {
+    digitalWrite(pinled2, HIGH);
+    tone(pinbuzzer, 500, 10);
+  } 
+  else if (pirsensor == HIGH) {
+    digitalWrite(pinled, HIGH);
+    tone(pinbuzzer, 10, 50);
+  } 
+  
+  else {
+    digitalWrite(pinled, LOW);
+    digitalWrite(pinled2, LOW);
+    noTone(pinbuzzer); // Stop the buzzer if no condition is met
+  }
+  
+  delay(10);
+}
